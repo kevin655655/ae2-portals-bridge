@@ -11,10 +11,12 @@ base {
 }
 
 repositories {
-    // AE2 Fabric builds
-    maven { url = 'https://maven.terraformers.dev' }
-    // Modrinth Maven (for Immersive Portals and other third-party mods)
-    maven { url = 'https://api.modrinth.com/maven' }
+    // Local flatDir for mod JARs that aren't reliably on any public Maven.
+    // AE2 19.2.18 is only published as "neoforge" on Modrinth (but the
+    // jar is loader-agnostic for the 1.21.x builds). Immersive Portals'
+    // Maven coordinate uses the project_id, not the slug. And
+    // maven.terraformers.dev was unreachable as of Oct 2026.
+    flatDir { dirs 'libs' }
     mavenCentral()
 }
 
@@ -24,22 +26,22 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // Applied Energistics 2 (Fabric)
-    modImplementation "appeng:ae2:${project.ae2_version}"
+    // AE2 — downloaded from Modrinth CDN, placed in libs/
+    modImplementation files('libs/appliedenergistics2-19.2.18.jar')
 
-    // Immersive Portals
-    modImplementation "maven.modrinth:imm_ptl:${project.imm_ptl_version}"
+    // Immersive Portals — downloaded from Modrinth CDN, placed in libs/
+    modImplementation files('libs/immersive-portals-6.0.6-mc1.21.1-fabric.jar')
 }
 
 processResources {
-    inputs.property 'version', project.version
-    inputs.property 'minecraft_version', project.minecraft_version
-    inputs.property 'loader_version', project.loader_version
-
     filesMatching('fabric.mod.json') {
-        expand 'version': project.version
-        expand 'minecraft_version': project.minecraft_version
-        expand 'loader_version': project.loader_version
+        expand([
+            version          : project.version,
+            minecraft_version : project.minecraft_version,
+            loader_version   : project.loader_version,
+            ae2_version      : project.ae2_version,
+            imm_ptl_version  : project.imm_ptl_version,
+        ])
     }
 }
 
