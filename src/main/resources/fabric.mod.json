@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "ae2_portals_bridge",
+  "version": "${version}",
+  "name": "AE2 Portals Bridge",
+  "description": "Bridges Applied Energistics 2 cables with Immersive Portals — cables connect through portals functionally, not just visually.",
+  "authors": [
+    "kevin655655"
+  ],
+  "contact": {
+    "homepage": "https://github.com/kevin655655/ae2-portals-bridge",
+    "sources": "https://github.com/kevin655655/ae2-portals-bridge",
+    "issues": "https://github.com/kevin655655/ae2-portals-bridge/issues"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.example.ae2portals.Ae2PortalsBridge"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "ae2portals.mixins.json",
+      "environment": "*"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*",
+    "ae2": ">=${ae2_version}",
+    "imm_ptl": ">=${imm_ptl_version}"
+  },
+  "suggests": {
+    "fabric-api": "*"
+  }
+}

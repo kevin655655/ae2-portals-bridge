@@ -1,0 +1,49 @@
+# Gradle
+.gradle/
+build/
+out/
+classes/
+run/
+*.iml
+
+# Fabric Loom
+*.lock
+
+# IDE - IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# IDE - VSCode
+.vscode/
+.classpath
+.project
+.settings/
+bin/
+
+# IDE - Eclipse
+.factorypath
+.recommenders
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+logs-local/
+
+# Build outputs
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+!libs/*.jar
+
+# Generated
+/src/generated/
+**/__pycache__/
+
+# Secrets
+.env
+.env.local
