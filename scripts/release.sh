@@ -24,6 +24,14 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 VERSION_TAG="${1:-}"
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
+# Use the Temurin 21 JDK we installed at $HOME/jdks/temurin-21. The system
+# Java on this host is JRE-only (no javac), which breaks the build with
+# "Toolchain installation ... does not provide [JAVA_COMPILER]".
+if [ -d "$HOME/jdks/temurin-21" ]; then
+    export JAVA_HOME="$HOME/jdks/temurin-21"
+    export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
 # Auto-increment the dev tag if none was given
 if [ -z "$VERSION_TAG" ]; then
     LAST_TAG=$(git tag --list 'v*-dev.*' --sort=-v:refname | head -1 || true)
@@ -38,6 +46,7 @@ fi
 
 echo "==> target tag:    $VERSION_TAG"
 echo "==> source branch: $BRANCH"
+echo "==> using java:     $(java -version 2>&1 | head -1)"
 echo
 
 # Build
