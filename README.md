@@ -86,3 +86,36 @@ table will be updated as each phase is actually built and tested.
 ## License
 
 MIT — see `LICENSE`.
+
+## Workflow — branches, releases, testing
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Stable. The latest released version. Eric (the owner of this mod's test instance) tests releases before they land here. |
+| `develop` | Active development. Every commit here is a work-in-progress; the source of truth for the next release. |
+
+**Testing a build:**
+1. Go to https://github.com/kevin655655/ae2-portals-bridge/releases
+2. Download the jar from the latest **prerelease** (tagged `vX.Y.Z-dev.N`)
+3. Drop it in `mods/` on a dev Minecraft 1.21.1 instance with AE2 Fabric 19.2.18+ and Immersive Portals 6.0.6+ already installed
+4. Report back: log output, screenshot, crash report — whatever you have
+
+The build that produced each release is reproducible: `git checkout <tag>` then `./gradlew build` gives the same jar.
+
+**Cutting a new test build** (from anywhere with `gh` CLI authenticated and the repo cloned):
+
+```bash
+# Auto-increments the next dev tag (v0.2.0-dev.1, v0.2.0-dev.2, ...):
+./scripts/release.sh
+
+# Or pin a specific tag:
+./scripts/release.sh v0.2.0-dev.3
+```
+
+`scripts/release.sh` runs `./gradlew clean build`, creates a prerelease GitHub Release tagged at the current `develop` HEAD, uploads the jar as the only asset, and generates notes from `git log <prev-tag>..HEAD`. Requires `gh` CLI authenticated as `kevin655655`.
+
+**Stable releases** (drop the `-dev.N` suffix, e.g. `./scripts/release.sh v0.2.0`) publish as a full release, not prerelease. The default auto-increment is dev-only; stable is always a deliberate choice.
+
+## License
+
+MIT — see `LICENSE`.
